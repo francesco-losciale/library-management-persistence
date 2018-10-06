@@ -1,12 +1,15 @@
 package com.frank.integration.test
 
+import com.frank.capabilities.Dehydrator
+import com.frank.capabilities.Hydrator
 import com.frank.context.book.Book
 import com.frank.context.book.BookCollection
 import com.frank.context.book.Order
-import com.frank.repository.OrderRepository
+import com.frank.persistence.OrderDehydrator
+import com.frank.persistence.OrderHydrator
 import spock.lang.Specification
 
-class OrderRepositorySpec extends Specification {
+class OrderPersistenceSpec extends Specification {
 
     final Book book = createBookMock()
 
@@ -16,18 +19,19 @@ class OrderRepositorySpec extends Specification {
         bookCollection.add(book)
 
         and: "A persistence unit"
-        OrderRepository orderRepository = new OrderRepository()
+        Hydrator hydrator = new OrderHydrator()
+        Dehydrator dehydrator = new OrderDehydrator()
 
         when: "An order is filled in"
         Order order = new Order()
-        //order.add(bookCollection)
+        //order.add(bookCollection) // TODO uncomment
         String orderId = "orderId"
 
         and: "The order is persisted"
-        orderRepository.save(order, orderId)
+        dehydrator.dehydrate(order)
 
         then: "The order read from the persistence unit is what expected"
-        order == orderRepository.read(orderId)
+        order == hydrator.hydrate(order.getId())
     }
 
     private Book createBookMock() {
