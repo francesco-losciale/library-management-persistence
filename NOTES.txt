@@ -1,0 +1,4 @@
+
+About DDD and data mapping
+https://softwareengineering.stackexchange.com/questions/267612/when-is-it-appropriate-to-map-a-dto-back-to-its-entity-counterpart
+
