@@ -1,8 +1,8 @@
 package com.frank.persistence;
 
 import com.frank.context.book.Order;
+import com.frank.mapper.AbstractPersistenceMap;
 import com.frank.mapper.DataMap;
-import com.frank.mapper.field.mongodb.StringPersistenceMap;
 import org.bson.Document;
 
 public class OrderMapper {
@@ -20,7 +20,7 @@ public class OrderMapper {
 
     public Document convertToDocument(Order order) {
         final Document document = new Document();
-        for (final StringPersistenceMap map : this.dataMap.getPersistenceMapList()) {
+        for (final AbstractPersistenceMap map : this.dataMap.getAbstractPersistenceMapList()) {
             document.append(map.getPersitenceFieldName(), map.getFieldValue(order));
         }
         return document;
@@ -28,7 +28,7 @@ public class OrderMapper {
 
     public Order convertToOrder(Document document) {
         final Order order = new Order();
-        for (final StringPersistenceMap map : this.dataMap.getPersistenceMapList()) {
+        for (final AbstractPersistenceMap map : this.dataMap.getAbstractPersistenceMapList()) {
             map.setFieldValue(order, document.get(map.getPersitenceFieldName()));
         }
         return order;

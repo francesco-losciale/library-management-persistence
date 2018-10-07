@@ -9,10 +9,12 @@ public class StringPersistenceMap extends AbstractPersistenceMap {
         super(persistenceFieldName, persistenceTypeName, domainFieldName, dataMap);
     }
 
+    @Override
     public Object castToPersistenceValue(Object value) {
         return value;
     }
 
+    @Override
     public Object castToDomainValue(Object value) throws ClassNotFoundException {
         Object castValue = Class.forName(persistenceTypeName).cast(value);
         return castValue;

@@ -11,31 +11,31 @@ public class DataMap {
 
     private Class domainClass;
     private String collectionName;
-    private List<StringPersistenceMap> persistenceMapList;
+    private List<AbstractPersistenceMap> abstractPersistenceMapList;
 
     public DataMap(Class domainClass, String collectionName) {
         this.domainClass = domainClass;
         this.collectionName = collectionName;
-        this.persistenceMapList = new ArrayList<StringPersistenceMap>();
+        this.abstractPersistenceMapList = new ArrayList<AbstractPersistenceMap>();
     }
 
     public void addField(String persistenceFieldName, String persistenceTypeName, String domainFieldName) {
-        persistenceMapList.add(new StringPersistenceMap(persistenceFieldName, persistenceTypeName, domainFieldName, this));
+        abstractPersistenceMapList.add(new StringPersistenceMap(persistenceFieldName, persistenceTypeName, domainFieldName, this));
     }
 
     public void addEnumField(String persistenceFieldName, String persistenceTypeName, String domainFieldName) {
-        persistenceMapList.add(new EnumPersistenceMap(persistenceFieldName, persistenceTypeName, domainFieldName, this));
+        abstractPersistenceMapList.add(new EnumPersistenceMap(persistenceFieldName, persistenceTypeName, domainFieldName, this));
     }
 
     public void addBigDecimalField(String persistenceFieldName, String persistenceTypeName, String domainFieldName) {
-        persistenceMapList.add(new BigDecimalPersistenceMap(persistenceFieldName, persistenceTypeName, domainFieldName, this));
+        abstractPersistenceMapList.add(new BigDecimalPersistenceMap(persistenceFieldName, persistenceTypeName, domainFieldName, this));
     }
 
     public Class getDomainClass() {
         return domainClass;
     }
 
-    public List<StringPersistenceMap> getPersistenceMapList() {
-        return persistenceMapList;
+    public List<AbstractPersistenceMap> getAbstractPersistenceMapList() {
+        return abstractPersistenceMapList;
     }
 }
