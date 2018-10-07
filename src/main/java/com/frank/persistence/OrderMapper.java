@@ -5,7 +5,7 @@ import com.frank.mapper.AbstractPersistenceMap;
 import com.frank.mapper.DataMap;
 import org.bson.Document;
 
-public class OrderMapper {
+public class OrderMapper implements EntityMapper {
 
     private final DataMap dataMap;
     private final String collectionName;
@@ -18,7 +18,8 @@ public class OrderMapper {
         this.dataMap.addField("order_number", java.lang.String.class.getName(), "orderNumber");
     }
 
-    public Document convertToDocument(Order order) {
+    public Document convertToPersistence(Object domainObject) {
+        Order order = Order.class.cast(domainObject);
         final Document document = new Document();
         for (final AbstractPersistenceMap map : this.dataMap.getAbstractPersistenceMapList()) {
             document.append(map.getPersitenceFieldName(), map.getFieldValue(order));
@@ -26,7 +27,8 @@ public class OrderMapper {
         return document;
     }
 
-    public Order convertToOrder(Document document) {
+    public Order convertToDomain(Object persistenceObject) {
+        Document document = Document.class.cast(persistenceObject);
         final Order order = new Order();
         for (final AbstractPersistenceMap map : this.dataMap.getAbstractPersistenceMapList()) {
             map.setFieldValue(order, document.get(map.getPersitenceFieldName()));

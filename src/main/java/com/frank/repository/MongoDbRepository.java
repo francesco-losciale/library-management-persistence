@@ -20,7 +20,7 @@ public class MongoDbRepository implements Repository {
 
     public Object add(Hydratable object) {
         Order order = Order.class.cast(object);
-        Document document = this.orderMapper.convertToDocument(order);
+        Document document = this.orderMapper.convertToPersistence(order);
         mongoCollection.insertOne(document);
         ObjectId objectId = (ObjectId) document.get("_id");
         return objectId;
@@ -29,7 +29,7 @@ public class MongoDbRepository implements Repository {
     public Hydratable get(Object id) {
         Document document = mongoCollection.find(Filters.eq("_id", new ObjectId(id.toString()))).first();
         if (document != null) {
-            return this.orderMapper.convertToOrder(document);
+            return this.orderMapper.convertToDomain(document);
         }
         throw new RuntimeException("Document _id " + id + " not found");
     }
