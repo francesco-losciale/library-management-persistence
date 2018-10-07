@@ -1,17 +1,19 @@
-package com.frank.mapper;
+package com.frank.mapper.maps;
+
+import com.frank.mapper.datamap.mongodb.MongoDbDataMap;
 
 import java.lang.reflect.Field;
 
 public abstract class AbstractPersistenceMap {
 
     private String domainFieldName;
-    private DataMap dataMap;
+    private MongoDbDataMap dataMap;
 
     protected Field field;
     protected String persitenceFieldName;
     protected String persistenceTypeName;
 
-    public AbstractPersistenceMap(String persistenceFieldName, String persistenceTypeName, String domainFieldName, DataMap dataMap) {
+    public AbstractPersistenceMap(String persistenceFieldName, String persistenceTypeName, String domainFieldName, MongoDbDataMap dataMap) {
         this.persitenceFieldName = persistenceFieldName;
         this.persistenceTypeName = persistenceTypeName;
         this.domainFieldName = domainFieldName;

@@ -1,18 +1,18 @@
 package com.frank.persistence;
 
 import com.frank.context.book.Order;
-import com.frank.mapper.AbstractPersistenceMap;
-import com.frank.mapper.DataMap;
+import com.frank.mapper.maps.AbstractPersistenceMap;
+import com.frank.mapper.datamap.mongodb.MongoDbDataMap;
 import org.bson.Document;
 
 public class OrderMapper implements EntityMapper {
 
-    private final DataMap dataMap;
+    private final MongoDbDataMap dataMap;
     private final String collectionName;
 
     public OrderMapper() {
         this.collectionName = "orders";
-        this.dataMap = new DataMap(Order.class, this.collectionName);
+        this.dataMap = new MongoDbDataMap(Order.class, this.collectionName);
         this.dataMap.addBigDecimalField("price", org.bson.types.Decimal128.class.getName(), "price");
         this.dataMap.addEnumField("state", com.frank.context.book.OrderState.class.getName(), "state");
         this.dataMap.addField("order_number", java.lang.String.class.getName(), "orderNumber");

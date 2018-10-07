@@ -1,11 +1,11 @@
-package com.frank.mapper.field.mongodb;
+package com.frank.mapper.maps.mongodb;
 
-import com.frank.mapper.AbstractPersistenceMap;
-import com.frank.mapper.DataMap;
+import com.frank.mapper.maps.AbstractPersistenceMap;
+import com.frank.mapper.datamap.mongodb.MongoDbDataMap;
 
 public class StringPersistenceMap extends AbstractPersistenceMap {
 
-    public StringPersistenceMap(String persistenceFieldName, String persistenceTypeName, String domainFieldName, DataMap dataMap) {
+    public StringPersistenceMap(String persistenceFieldName, String persistenceTypeName, String domainFieldName, MongoDbDataMap dataMap) {
         super(persistenceFieldName, persistenceTypeName, domainFieldName, dataMap);
     }
 
