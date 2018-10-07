@@ -1,12 +1,12 @@
 package com.frank.mapper.maps.mongodb;
 
+import com.frank.mapper.datamap.DataMap;
 import com.frank.mapper.maps.AbstractPersistenceMap;
-import com.frank.mapper.datamap.mongodb.MongoDbDataMap;
 
 public class EnumPersistenceMap extends AbstractPersistenceMap {
 
-    public EnumPersistenceMap(String persistenceFieldName, String persistenceTypeName, String domainFieldName, MongoDbDataMap dataMap) {
-        super(persistenceFieldName, persistenceTypeName, domainFieldName, dataMap);
+    public EnumPersistenceMap(String persistenceFieldName, String domainFieldName, DataMap dataMap) {
+        super(persistenceFieldName, domainFieldName, dataMap);
     }
 
     @Override
@@ -16,7 +16,7 @@ public class EnumPersistenceMap extends AbstractPersistenceMap {
 
     @Override
     public Object castToDomainValue(Object value) throws ClassNotFoundException {
-        Object castValue = Enum.valueOf((Class<Enum>) Class.class.forName(persistenceTypeName), (String) value);
+        Object castValue = Enum.valueOf((Class<Enum>) this.field.getType(), (String) value);
         return castValue;
     }
 

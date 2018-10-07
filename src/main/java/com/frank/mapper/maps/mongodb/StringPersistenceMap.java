@@ -1,12 +1,12 @@
 package com.frank.mapper.maps.mongodb;
 
+import com.frank.mapper.datamap.DataMap;
 import com.frank.mapper.maps.AbstractPersistenceMap;
-import com.frank.mapper.datamap.mongodb.MongoDbDataMap;
 
 public class StringPersistenceMap extends AbstractPersistenceMap {
 
-    public StringPersistenceMap(String persistenceFieldName, String persistenceTypeName, String domainFieldName, MongoDbDataMap dataMap) {
-        super(persistenceFieldName, persistenceTypeName, domainFieldName, dataMap);
+    public StringPersistenceMap(String persistenceFieldName, String domainFieldName, DataMap dataMap) {
+        super(persistenceFieldName, domainFieldName, dataMap);
     }
 
     @Override
@@ -16,7 +16,7 @@ public class StringPersistenceMap extends AbstractPersistenceMap {
 
     @Override
     public Object castToDomainValue(Object value) throws ClassNotFoundException {
-        Object castValue = Class.forName(persistenceTypeName).cast(value);
+        Object castValue = String.class.cast(value);
         return castValue;
     }
 

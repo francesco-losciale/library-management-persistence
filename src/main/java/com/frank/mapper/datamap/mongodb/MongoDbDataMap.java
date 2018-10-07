@@ -21,16 +21,16 @@ public class MongoDbDataMap implements DataMap {
         this.persistenceMapFactory = new PersistenceMapFactory();
     }
 
-    public void addField(String persistenceFieldName, String persistenceTypeName, String domainFieldName) {
-        abstractPersistenceMapList.add(persistenceMapFactory.createMongoDbStringPersistenceMap(persistenceFieldName, persistenceTypeName, domainFieldName, this));
+    public void addField(String persistenceFieldName, String domainFieldName) {
+        abstractPersistenceMapList.add(persistenceMapFactory.createMongoDbStringPersistenceMap(persistenceFieldName, domainFieldName, this));
     }
 
-    public void addEnumField(String persistenceFieldName, String persistenceTypeName, String domainFieldName) {
-        abstractPersistenceMapList.add(persistenceMapFactory.createMongoDbEnumPersistenceMap(persistenceFieldName, persistenceTypeName, domainFieldName, this));
+    public void addEnumField(String persistenceFieldName, String domainFieldName) {
+        abstractPersistenceMapList.add(persistenceMapFactory.createMongoDbEnumPersistenceMap(persistenceFieldName, domainFieldName, this));
     }
 
-    public void addBigDecimalField(String persistenceFieldName, String persistenceTypeName, String domainFieldName) {
-        abstractPersistenceMapList.add(persistenceMapFactory.createMongoDbBigDecimalPersistenceMap(persistenceFieldName, persistenceTypeName, domainFieldName, this));
+    public void addBigDecimalField(String persistenceFieldName, String domainFieldName) {
+        abstractPersistenceMapList.add(persistenceMapFactory.createMongoDbBigDecimalPersistenceMap(persistenceFieldName, domainFieldName, this));
     }
 
     public Class getDomainClass() {
