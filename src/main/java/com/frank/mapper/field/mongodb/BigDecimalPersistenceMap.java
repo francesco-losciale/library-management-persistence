@@ -1,15 +1,18 @@
-package com.frank.mapper;
+package com.frank.mapper.field.mongodb;
 
-public class EnumPersistenceMap extends PersistenceMap {
+import com.frank.mapper.DataMap;
+import org.bson.types.Decimal128;
 
-    public EnumPersistenceMap(String persistenceFieldName, String persistenceTypeName, String domainFieldName, DataMap dataMap) {
+public class BigDecimalPersistenceMap extends StringPersistenceMap {
+
+    public BigDecimalPersistenceMap(String persistenceFieldName, String persistenceTypeName, String domainFieldName, DataMap dataMap) {
         super(persistenceFieldName, persistenceTypeName, domainFieldName, dataMap);
     }
 
     @Override
     public void setFieldValue(Object instance, Object value) {
         try {
-            Object castValue = Enum.valueOf((Class<Enum>) Class.class.forName(persistenceTypeName), (String) value);
+            Object castValue = ((Decimal128) Class.forName(this.persistenceTypeName).cast(value)).bigDecimalValue();
             field.set(instance, castValue);
         } catch (IllegalAccessException e) {
             throw new RuntimeException("Implementation error: field " + this.persitenceFieldName + " not accessible from the bean");
@@ -21,7 +24,7 @@ public class EnumPersistenceMap extends PersistenceMap {
     @Override
     public Object getFieldValue(Object instance) {
         try {
-            return field.get(instance).toString();
+            return Decimal128.parse(field.get(instance).toString());
         } catch (IllegalAccessException e) {
             throw new RuntimeException("Implementation error: field " + this.persitenceFieldName + " not accessible from the bean");
         }

@@ -2,7 +2,7 @@ package com.frank.mapper;
 
 import java.lang.reflect.Field;
 
-public class PersistenceMap {
+public abstract class AbstractPersistenceMap {
 
     private String domainFieldName;
     private DataMap dataMap;
@@ -11,7 +11,7 @@ public class PersistenceMap {
     protected String persitenceFieldName;
     protected String persistenceTypeName;
 
-    public PersistenceMap(String persistenceFieldName, String persistenceTypeName, String domainFieldName, DataMap dataMap) {
+    public AbstractPersistenceMap(String persistenceFieldName, String persistenceTypeName, String domainFieldName, DataMap dataMap) {
         this.persitenceFieldName = persistenceFieldName;
         this.persistenceTypeName = persistenceTypeName;
         this.domainFieldName = domainFieldName;
@@ -19,19 +19,9 @@ public class PersistenceMap {
         initField();
     }
 
-    private void initField() {
-        try {
-            field = dataMap.getDomainClass().getDeclaredField(this.domainFieldName);
-            field.setAccessible(true);
-        } catch (NoSuchFieldException e) {
-            throw new RuntimeException("Implementation error: unable to get the field " +
-                    this.domainFieldName + " from the domain class " + dataMap.getDomainClass());
-        }
-    }
-
     public void setFieldValue(Object instance, Object value) {
         try {
-            Object castValue = Class.forName(persistenceTypeName).cast(value);
+            Object castValue = castToDomainValue(value);
             field.set(instance, castValue);
         } catch (IllegalAccessException e) {
             throw new RuntimeException("Implementation error: field " + this.persitenceFieldName + " not accessible from the bean");
@@ -42,7 +32,9 @@ public class PersistenceMap {
 
     public Object getFieldValue(Object instance) {
         try {
-            return field.get(instance);
+            Object value = field.get(instance);
+            Object castValue = castToPersistenceValue(value);
+            return castValue;
         } catch (IllegalAccessException e) {
             throw new RuntimeException("Implementation error: field " + this.persitenceFieldName + " not accessible from the bean");
         }
@@ -50,6 +42,20 @@ public class PersistenceMap {
 
     public String getPersitenceFieldName() {
         return persitenceFieldName;
+    }
+
+    public abstract Object castToPersistenceValue(Object value);
+
+    public abstract Object castToDomainValue(Object value) throws ClassNotFoundException;
+
+    private void initField() {
+        try {
+            field = dataMap.getDomainClass().getDeclaredField(this.domainFieldName);
+            field.setAccessible(true);
+        } catch (NoSuchFieldException e) {
+            throw new RuntimeException("Implementation error: unable to get the field " +
+                    this.domainFieldName + " from the domain class " + dataMap.getDomainClass());
+        }
     }
 
 }
