@@ -9,4 +9,5 @@ public interface DataMap<DomainClass> {
     void addBigDecimalField(String persistenceFieldName, String domainFieldName);
 
     Class getDomainClass();
+
 }
