@@ -1,6 +1,8 @@
-package com.frank.mapper.datamap;
+package com.frank.persistence.api;
 
-public interface DataMap<DomainClass> {
+import org.bson.Document;
+
+public interface DataMap {
 
     void addField(String persistenceFieldName, String domainFieldName);
 
@@ -10,4 +12,7 @@ public interface DataMap<DomainClass> {
 
     Class getDomainClass();
 
+    Document castToPersistent(Object domainObject);
+
+    Object castToDomain(Object persistenceObject);
 }

@@ -1,8 +1,9 @@
-package com.frank.mapper.datamap.mongodb;
+package com.frank.persistence.mongodb.datamap;
 
-import com.frank.mapper.datamap.DataMap;
-import com.frank.mapper.maps.AbstractPersistenceMap;
-import com.frank.mapper.maps.PersistenceMapFactory;
+import com.frank.persistence.api.DataMap;
+import com.frank.persistence.api.PersistenceMap;
+import com.frank.persistence.api.PersistenceMapFactory;
+import com.frank.persistence.mongodb.map.MongoDbPersistenceMapFactory;
 import org.bson.Document;
 
 import java.util.ArrayList;
@@ -12,26 +13,27 @@ public class MongoDbDataMap implements DataMap {
 
     private Class domainClass;
     private String collectionName;
-    private List<AbstractPersistenceMap> abstractPersistenceMapList;
+    private List<PersistenceMap> persistenceMapList;
     private PersistenceMapFactory persistenceMapFactory;
 
-    public MongoDbDataMap(Class domainClass, String collectionName) {
+    public MongoDbDataMap(Class domainClass, String collectionName, PersistenceMapFactory persistenceMapFactory) {
+        this.persistenceMapFactory = persistenceMapFactory;
         this.domainClass = domainClass;
         this.collectionName = collectionName;
-        this.abstractPersistenceMapList = new ArrayList<AbstractPersistenceMap>();
-        this.persistenceMapFactory = new PersistenceMapFactory();
+        this.persistenceMapList = new ArrayList<PersistenceMap>();
+        this.persistenceMapFactory = new MongoDbPersistenceMapFactory();
     }
 
     public void addField(String persistenceFieldName, String domainFieldName) {
-        abstractPersistenceMapList.add(persistenceMapFactory.createMongoDbStringPersistenceMap(persistenceFieldName, domainFieldName, this));
+        persistenceMapList.add(persistenceMapFactory.createStringPersistenceMap(persistenceFieldName, domainFieldName, this));
     }
 
     public void addEnumField(String persistenceFieldName, String domainFieldName) {
-        abstractPersistenceMapList.add(persistenceMapFactory.createMongoDbEnumPersistenceMap(persistenceFieldName, domainFieldName, this));
+        persistenceMapList.add(persistenceMapFactory.createEnumPersistenceMap(persistenceFieldName, domainFieldName, this));
     }
 
     public void addBigDecimalField(String persistenceFieldName, String domainFieldName) {
-        abstractPersistenceMapList.add(persistenceMapFactory.createMongoDbBigDecimalPersistenceMap(persistenceFieldName, domainFieldName, this));
+        persistenceMapList.add(persistenceMapFactory.createBigDecimalPersistenceMap(persistenceFieldName, domainFieldName, this));
     }
 
     public Class getDomainClass() {
@@ -40,7 +42,7 @@ public class MongoDbDataMap implements DataMap {
 
     public Document castToPersistent(Object domainObject) {
         final Document document = new Document();
-        for (final AbstractPersistenceMap map : this.abstractPersistenceMapList) {
+        for (final PersistenceMap map : this.persistenceMapList) {
             document.append(map.getPersitenceFieldName(), map.getFieldValue(domainObject));
         }
         return document;
@@ -63,7 +65,7 @@ public class MongoDbDataMap implements DataMap {
 
     private Object populateDomainObject(Document persistenceObject, Object domainObject) {
         Document document = persistenceObject;
-        for (final AbstractPersistenceMap map : this.abstractPersistenceMapList) {
+        for (final PersistenceMap map : this.persistenceMapList) {
             map.setFieldValue(domainObject, document.get(map.getPersitenceFieldName()));
         }
         return domainObject;

@@ -1,7 +1,6 @@
-package com.frank.mapper.maps.mongodb;
+package com.frank.persistence.mongodb.map;
 
-import com.frank.mapper.datamap.DataMap;
-import com.frank.mapper.maps.AbstractPersistenceMap;
+import com.frank.persistence.api.DataMap;
 import org.bson.types.Decimal128;
 
 public class BigDecimalPersistenceMap extends AbstractPersistenceMap {

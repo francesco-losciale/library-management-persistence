@@ -1,9 +1,9 @@
-package com.frank.repository.mongodb;
+package com.frank.persistence.mongodb;
 
 import com.frank.capabilities.Hydratable;
 import com.frank.capabilities.Repository;
 import com.frank.context.book.Order;
-import com.frank.persistence.EntityMapper;
+import com.frank.persistence.api.EntityMapper;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;

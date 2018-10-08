@@ -1,10 +1,11 @@
-package com.frank.mapper.maps;
+package com.frank.persistence.mongodb.map;
 
-import com.frank.mapper.datamap.DataMap;
+import com.frank.persistence.api.DataMap;
+import com.frank.persistence.api.PersistenceMap;
 
 import java.lang.reflect.Field;
 
-public abstract class AbstractPersistenceMap {
+abstract class AbstractPersistenceMap implements PersistenceMap {
 
     private String domainFieldName;
     private DataMap dataMap;

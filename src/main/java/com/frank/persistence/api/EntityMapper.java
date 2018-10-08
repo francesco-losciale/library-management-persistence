@@ -1,4 +1,4 @@
-package com.frank.persistence;
+package com.frank.persistence.api;
 
 public interface EntityMapper {
 
