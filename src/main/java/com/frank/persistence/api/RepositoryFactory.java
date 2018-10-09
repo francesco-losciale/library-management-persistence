@@ -7,4 +7,6 @@ public interface RepositoryFactory {
     EntityMapper createEntityMapper(Class domainClass, String collectionName);
 
     DataMap createDataMap(Class domainClass, String collectionName);
+
+    Repository createRepository();
 }

@@ -1,10 +1,6 @@
 package com.frank.persistence.mongodb;
 
-import com.frank.capabilities.Repository;
-import com.frank.persistence.api.DataMap;
-import com.frank.persistence.api.EntityMapper;
-import com.frank.persistence.api.PersistenceMapFactory;
-import com.frank.persistence.api.RepositoryFactory;
+import com.frank.persistence.api.*;
 import com.frank.persistence.mongodb.datamap.MongoDbDataMap;
 import com.frank.persistence.mongodb.map.MongoDbPersistenceMapFactory;
 import com.frank.persistence.mongodb.mapper.OrderMapper;
@@ -23,7 +19,7 @@ public class MongoDbRepositoryFactory implements RepositoryFactory {
         return new MongoDbDataMap(domainClass, collectionName, createPersistenceMapFactory());
     }
 
-    public Repository createRepository(EntityMapper entityMapper) {
-        return new MongoDbRepository(entityMapper);
+    public Repository createRepository() {
+        return new MongoDbRepository();
     }
 }

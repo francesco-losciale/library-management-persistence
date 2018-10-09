@@ -1,9 +1,9 @@
 package com.frank.persistence.mongodb;
 
-import com.frank.capabilities.Hydratable;
-import com.frank.capabilities.Repository;
+import com.frank.capability.Hydratable;
 import com.frank.context.book.Order;
 import com.frank.persistence.api.EntityMapper;
+import com.frank.persistence.api.Repository;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
@@ -13,32 +13,33 @@ import org.bson.types.ObjectId;
 
 public class MongoDbRepository implements Repository {
 
-    private final EntityMapper entityMapper;
     private final MongoClient mongoClient;
     private final MongoDatabase mongoDatabase;
-    private final MongoCollection<Document> mongoCollection;
 
-    public MongoDbRepository(EntityMapper entityMapper) {
-        this.entityMapper = entityMapper;
+    public MongoDbRepository() {
         this.mongoClient = new MongoClient("10.0.2.15");
         this.mongoDatabase = mongoClient.getDatabase("library-management-database");
-        this.mongoCollection = mongoDatabase.getCollection(this.entityMapper.getCollectionName());
     }
 
-    public Object add(Hydratable object) {
+    public Object add(Hydratable object, EntityMapper entityMapper) {
+        final MongoCollection<Document> mongoCollection = getMongoCollection(entityMapper.getCollectionName());
         Order order = Order.class.cast(object);
-        Document document = (Document)this.entityMapper.convertToPersistence(order);
+        Document document = (Document)entityMapper.convertToPersistence(order);
         mongoCollection.insertOne(document);
         ObjectId objectId = (ObjectId) document.get("_id");
         return objectId;
     }
 
-    public Hydratable get(Object id) {
+    public Hydratable get(Object id, EntityMapper entityMapper) {
+        final MongoCollection<Document> mongoCollection = getMongoCollection(entityMapper.getCollectionName());
         Document document = mongoCollection.find(Filters.eq("_id", new ObjectId(id.toString()))).first();
         if (document != null) {
-            return (Order)this.entityMapper.convertToDomain(document);
+            return (Order)entityMapper.convertToDomain(document);
         }
         throw new RuntimeException("Document _id " + id + " not found");
     }
 
+    private MongoCollection<Document> getMongoCollection(String collectionName) {
+        return mongoDatabase.getCollection(collectionName);
+    }
 }
