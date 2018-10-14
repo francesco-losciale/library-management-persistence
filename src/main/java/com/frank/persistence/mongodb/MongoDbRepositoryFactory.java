@@ -5,7 +5,7 @@ import com.frank.persistence.api.EntityMapper;
 import com.frank.persistence.api.PersistenceMapFactory;
 import com.frank.persistence.api.Repository;
 import com.frank.persistence.api.RepositoryFactory;
-import com.frank.persistence.api.mapper.Mapper;
+import com.frank.persistence.api.mapper.OrderMapper;
 import com.frank.persistence.mongodb.datamap.MongoDbDataMap;
 import com.frank.persistence.mongodb.map.MongoDbPersistenceMapFactory;
 import org.bson.Document;
@@ -33,7 +33,7 @@ public class MongoDbRepositoryFactory implements RepositoryFactory {
 
     private EntityMapper newEntityMapperInstance(DataMap dataMap) {
         try {
-            return Mapper.class.getConstructor(DataMap.class).newInstance(dataMap);
+            return OrderMapper.class.getConstructor(DataMap.class).newInstance(dataMap);
         } catch (InstantiationException e) {
             throw new RuntimeException("Implementation error: impossible to create an entity mapper", e);
         } catch (IllegalAccessException e) {
