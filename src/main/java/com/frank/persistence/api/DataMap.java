@@ -12,6 +12,10 @@ public interface DataMap {
 
     Class getDomainClass();
 
+    Class getPersistenceClass();
+
+    String getCollectionName();
+
     Document castToPersistent(Object domainObject);
 
     Object castToDomain(Object persistenceObject);

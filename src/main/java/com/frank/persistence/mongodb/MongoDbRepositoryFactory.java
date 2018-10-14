@@ -1,16 +1,22 @@
 package com.frank.persistence.mongodb;
 
-import com.frank.persistence.api.*;
+import com.frank.persistence.api.DataMap;
+import com.frank.persistence.api.EntityMapper;
+import com.frank.persistence.api.PersistenceMapFactory;
+import com.frank.persistence.api.Repository;
+import com.frank.persistence.api.RepositoryFactory;
+import com.frank.persistence.api.mapper.Mapper;
 import com.frank.persistence.mongodb.datamap.MongoDbDataMap;
 import com.frank.persistence.mongodb.map.MongoDbPersistenceMapFactory;
+import org.bson.Document;
 
 import java.lang.reflect.InvocationTargetException;
 
 public class MongoDbRepositoryFactory implements RepositoryFactory {
 
-    public EntityMapper createEntityMapper(Class domainClass, Class<EntityMapper> entityMapperClass, String collectionName) {
-        DataMap dataMap = createDataMap(domainClass, collectionName);
-        return newEntityMapperInstance(entityMapperClass, dataMap);
+    public EntityMapper createEntityMapper(Class domainClass, String collectionName) {
+        DataMap dataMap = createDataMap(domainClass, Document.class, collectionName);
+        return newEntityMapperInstance(dataMap);
     }
 
     public Repository createRepository() {
@@ -21,13 +27,13 @@ public class MongoDbRepositoryFactory implements RepositoryFactory {
         return new MongoDbPersistenceMapFactory();
     }
 
-    private DataMap createDataMap(Class domainClass, String collectionName) {
-        return new MongoDbDataMap(domainClass, collectionName, createPersistenceMapFactory());
+    private DataMap createDataMap(Class domainClass, Class persistenceClass, String collectionName) {
+        return new MongoDbDataMap(domainClass, persistenceClass, collectionName, createPersistenceMapFactory());
     }
 
-    private EntityMapper newEntityMapperInstance(Class<EntityMapper> entityMapperClass, DataMap dataMap) {
+    private EntityMapper newEntityMapperInstance(DataMap dataMap) {
         try {
-            return entityMapperClass.getConstructor(DataMap.class).newInstance(dataMap);
+            return Mapper.class.getConstructor(DataMap.class).newInstance(dataMap);
         } catch (InstantiationException e) {
             throw new RuntimeException("Implementation error: impossible to create an entity mapper", e);
         } catch (IllegalAccessException e) {

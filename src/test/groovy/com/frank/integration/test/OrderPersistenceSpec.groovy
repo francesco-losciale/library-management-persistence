@@ -6,7 +6,6 @@ import com.frank.context.book.Order
 import com.frank.persistence.api.EntityMapper
 import com.frank.persistence.api.Repository
 import com.frank.persistence.mongodb.MongoDbRepositoryFactory
-import com.frank.persistence.mongodb.mapper.OrderMapper
 import spock.lang.Specification
 
 class OrderPersistenceSpec extends Specification {
@@ -15,7 +14,7 @@ class OrderPersistenceSpec extends Specification {
 
     def "GIVEN an EMPTY Order object and a persistence unit WHEN save operation is triggered THEN the object is persisted"() {
         given: "A persistence unit"
-        EntityMapper entityMapper = repositoryFactory.createEntityMapper(Order.class, OrderMapper.class, "orders")
+        EntityMapper entityMapper = repositoryFactory.createEntityMapper(Order.class, "orders")
         Repository repository = repositoryFactory.createRepository()
 
         when: "An EMPTY order is filled in"
@@ -30,7 +29,7 @@ class OrderPersistenceSpec extends Specification {
 
     def "GIVEN an Order and a collection of books WHEN save operation is triggered THEN the objects are persisted"() {
         given: "A persistence unit"
-        EntityMapper entityMapper = repositoryFactory.createEntityMapper(Order.class, OrderMapper.class, "orders")
+        EntityMapper entityMapper = repositoryFactory.createEntityMapper(Order.class, "orders")
         Repository repository = repositoryFactory.createRepository()
 
         when: "An order of two books is filled in"

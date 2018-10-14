@@ -12,13 +12,15 @@ import java.util.List;
 public class MongoDbDataMap implements DataMap {
 
     private Class domainClass;
+    private Class persistenceClass;
     private String collectionName;
     private List<PersistenceMap> persistenceMapList;
     private PersistenceMapFactory persistenceMapFactory;
 
-    public MongoDbDataMap(Class domainClass, String collectionName, PersistenceMapFactory persistenceMapFactory) {
-        this.persistenceMapFactory = persistenceMapFactory;
+    public MongoDbDataMap(Class domainClass, Class persistenceClass, String collectionName, PersistenceMapFactory persistenceMapFactory) {
         this.domainClass = domainClass;
+        this.persistenceClass = persistenceClass;
+        this.persistenceMapFactory = persistenceMapFactory;
         this.collectionName = collectionName;
         this.persistenceMapList = new ArrayList<PersistenceMap>();
         this.persistenceMapFactory = new MongoDbPersistenceMapFactory();
@@ -38,6 +40,14 @@ public class MongoDbDataMap implements DataMap {
 
     public Class getDomainClass() {
         return domainClass;
+    }
+
+    public Class getPersistenceClass() {
+        return persistenceClass;
+    }
+
+    public String getCollectionName() {
+        return collectionName;
     }
 
     public Document castToPersistent(Object domainObject) {
