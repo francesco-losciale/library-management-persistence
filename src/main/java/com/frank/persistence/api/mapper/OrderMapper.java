@@ -1,19 +1,20 @@
 package com.frank.persistence.api.mapper;
 
 import com.frank.capability.Hydratable;
+import com.frank.metadata.OrderFieldMetadataEnum;
 import com.frank.persistence.api.DataMap;
 import com.frank.persistence.api.EntityMapper;
 
-public class Mapper extends AbstractEntityMapper implements EntityMapper {
+public class OrderMapper extends AbstractEntityMapper implements EntityMapper {
 
     private final DataMap dataMap;
 
-    public Mapper(DataMap dataMap) {
+    public OrderMapper(DataMap dataMap) {
         super(dataMap.getDomainClass(), dataMap.getPersistenceClass());
         this.dataMap = dataMap;
-        this.dataMap.addBigDecimalField("price", "price");
-        this.dataMap.addEnumField("state", "state");
-        this.dataMap.addField("order_number", "orderNumber");
+        this.dataMap.addBigDecimalField(OrderFieldMetadataEnum.PRICE.getExternalFieldName(), OrderFieldMetadataEnum.PRICE.getEntityFieldName());
+        this.dataMap.addEnumField(OrderFieldMetadataEnum.STATE.getExternalFieldName(), OrderFieldMetadataEnum.STATE.getEntityFieldName());
+        this.dataMap.addField(OrderFieldMetadataEnum.ORDER_NUMBER.getExternalFieldName(), OrderFieldMetadataEnum.ORDER_NUMBER.getEntityFieldName());
     }
 
     public String getCollectionName() {
