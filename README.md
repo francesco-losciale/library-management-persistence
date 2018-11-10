@@ -22,3 +22,8 @@ You need to know the configuration of your Docker Machine and set the correct va
 * Docker containerization for running integration tests 
 * MongoDb for persistence
 * SPOCK framework with Groovy language for writing the integration tests
+
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
