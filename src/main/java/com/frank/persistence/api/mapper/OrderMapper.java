@@ -1,7 +1,7 @@
 package com.frank.persistence.api.mapper;
 
-import com.frank.capability.Hydratable;
-import com.frank.metadata.OrderFieldMetadataEnum;
+import com.frank.entity.Hydratable;
+import com.frank.entity.order.OrderFieldMetadataEnum;
 import com.frank.persistence.api.DataMap;
 import com.frank.persistence.api.EntityMapper;
 

@@ -1,6 +1,6 @@
 package com.frank.persistence.mongodb;
 
-import com.frank.capability.Hydratable;
+import com.frank.entity.Hydratable;
 import com.frank.persistence.api.EntityMapper;
 import com.frank.persistence.api.Repository;
 import com.mongodb.MongoClient;

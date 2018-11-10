@@ -1,6 +1,6 @@
 package com.frank.persistence.api.mapper;
 
-import com.frank.capability.Hydratable;
+import com.frank.entity.Hydratable;
 import com.frank.persistence.api.EntityMapper;
 
 public abstract class AbstractEntityMapper implements EntityMapper {

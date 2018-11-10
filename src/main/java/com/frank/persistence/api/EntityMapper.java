@@ -1,6 +1,7 @@
 package com.frank.persistence.api;
 
-import com.frank.capability.Hydratable;
+
+import com.frank.entity.Hydratable;
 
 public interface EntityMapper {
 

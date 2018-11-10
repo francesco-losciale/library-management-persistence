@@ -1,7 +1,5 @@
 package com.frank.persistence.api;
 
-import org.bson.Document;
-
 public interface DataMap {
 
     void addField(String persistenceFieldName, String domainFieldName);
@@ -16,7 +14,7 @@ public interface DataMap {
 
     String getCollectionName();
 
-    Document castToPersistent(Object domainObject);
+    Object castToPersistent(Object domainObject);
 
     Object castToDomain(Object persistenceObject);
 }

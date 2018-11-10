@@ -1,8 +1,8 @@
 package com.frank.integration.test
 
-import com.frank.context.book.Book
-import com.frank.context.book.BookCollection
-import com.frank.context.book.Order
+import com.frank.entity.book.Book
+import com.frank.entity.book.BookCollection
+import com.frank.entity.order.Order
 import com.frank.persistence.api.EntityMapper
 import com.frank.persistence.api.Repository
 import com.frank.persistence.mongodb.MongoDbRepositoryFactory
@@ -49,6 +49,6 @@ class OrderPersistenceSpec extends Specification {
 
         then: "The order read from the persistence unit is what expected"
         order == repository.get(orderId, entityMapper)
-        order.getBookCollection() == 0 // TODO this call must not be possible, Order have to save the books internally. But how to pass the Book's entity mapper then?...
+        order.getBookList().contains(book) // TODO this call must not be possible, Order have to save the books internally. But how to pass the Book's entity mapper then?...
     }
 }
