@@ -1,17 +1,21 @@
-# Business Object persistence on MongoDb (work in progress)
+# Simple poc for persisting domain objects
 
-A simple POC for persisting objecs in a MongoDb database.
+How to persist domain object which by definition are not defined by simple database entity or DTO classes with public getters/setters? 
 
-## Getting Started
+A possible solution is to use the (Metadata Mapping pattern)[https://martinfowler.com/eaaCatalog/metadataMapping.html] by Martin Fowler.
 
-git clone https://github.com/francesco-losciale/library-management-persistence.git
+A complete API has been specified here implemented with MongoDB. 
 
-mvn install
+Most important flaws:
+
+1. Excessive use of Java Reflection
+2. Where do you place OrderFieldMetadataEnum which refers to both the persistence field and the domain classes' name? Would you place it in the business component or in the persistence component? It is placed here to keep the dependency inversion principle valid.
 
 
 ### Prerequisites
 
 You need to know the configuration of your Docker Machine and set the correct values in both the MongoDbRepository class and the pom.xml file.
+
 
 ## Built With
 
