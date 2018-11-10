@@ -2,7 +2,7 @@
 
 How to persist domain object which by definition are not defined by simple database entity or DTO classes with public getters/setters? 
 
-A possible solution is to use the (Metadata Mapping pattern)[https://martinfowler.com/eaaCatalog/metadataMapping.html] by Martin Fowler.
+A possible solution is to use the [Metadata Mapping pattern](https://martinfowler.com/eaaCatalog/metadataMapping.html) by Martin Fowler.
 
 A complete API has been specified here implemented with MongoDB. 
 
