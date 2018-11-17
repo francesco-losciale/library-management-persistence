@@ -11,7 +11,7 @@
     <build>
         <plugins>
             <plugin>
-                <!-- integration tests -->
+                <!-- integration tests phases -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <version>2.19.1</version>
@@ -23,6 +23,8 @@
                 </configuration>
                 <executions>
                     <execution>
+                        <!-- do not use integration-test in place of verify, because the -->
+                        <!-- post-integration-test wouldn't be called -->
                         <id>integration-test</id>
                         <goals>
                             <goal>integration-test</goal>
@@ -72,16 +74,32 @@
                     </execution>
                 </executions>
             </plugin>
-
             <plugin>
-                <!-- used to compile groovy code -->
+                <!--used to compile groovy code, it also adds integration tests-->
+                <!--from a different folder than the usual "test"-->
                 <groupId>org.codehaus.gmavenplus</groupId>
                 <artifactId>gmavenplus-plugin</artifactId>
                 <version>1.6</version>
+                <configuration>
+                    <testSources>
+                        <testSource>
+                            <directory>src/test/groovy</directory>
+                            <includes>
+                                <include>**/*.groovy</include>
+                            </includes>
+                        </testSource>
+                        <testSource>
+                            <directory>src/test-integration/groovy</directory>
+                            <includes>
+                                <include>**/*.groovy</include>
+                            </includes>
+                        </testSource>
+                    </testSources>
+                </configuration>
                 <executions>
                     <execution>
                         <goals>
-                            <goal>compile</goal>
+                            <goal>addTestSources</goal>
                             <goal>compileTests</goal>
                         </goals>
                     </execution>
@@ -91,14 +109,12 @@
     </build>
 
     <dependencies>
-
         <!-- application -->
         <dependency>
             <groupId>bookshop-system</groupId>
             <artifactId>bookshop-system-business-layer</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-
         <!-- technologies -->
         <dependency>
             <groupId>org.mongodb</groupId>
