@@ -1,0 +1,54 @@
+plugins {
+    id 'com.bmuschko.docker-remote-api' version '3.2.5'
+}
+
+apply plugin: 'java'
+apply plugin: 'groovy'
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+    implementation 'bookshop-system:bookshop-system-business-layer:1.0-SNAPSHOT', 'org.mongodb:mongodb-driver:3.8.2'
+    testImplementation (
+            ['org.spockframework:spock-core:1.2-groovy-2.5'],
+            ['org.codehaus.groovy:groovy-all:2.5.2'],
+    )
+}
+
+docker {
+    url = 'tcp://10.0.2.15:2375' // docker machine address
+}
+
+
+import com.bmuschko.gradle.docker.tasks.container.*
+import com.bmuschko.gradle.docker.tasks.image.*
+
+
+task initMongoDbDockerImage(type: DockerPullImage) {
+    repository 'mongo'
+    tag 'latest'
+}
+
+task initDockerContainer(type: DockerCreateContainer) {
+    dependsOn initMongoDbDockerImage
+    targetImageId  { initMongoDbDockerImage.getImageId() }
+    portBindings = ['27017:27017']
+}
+
+task startDockerContainer(type: DockerStartContainer) {
+    dependsOn initDockerContainer
+    targetContainerId { initDockerContainer.getContainerId() }
+}
+
+test.dependsOn startDockerContainer
+
+task stopDockerContainer(type: DockerStopContainer) {
+    dependsOn startDockerContainer
+    targetContainerId { initDockerContainer.getContainerId() }
+}
+
+test.finalizedBy stopDockerContainer
