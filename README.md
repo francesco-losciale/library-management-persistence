@@ -13,7 +13,7 @@ Most important flaws:
 
 ### Latest change
 
-Added gradle script which uses (Gradle Docker Plugin)[https://bmuschko.github.io/gradle-docker-plugin/] for running the integration tests.
+Added gradle script which uses [Gradle Docker Plugin](https://bmuschko.github.io/gradle-docker-plugin/) for running the integration tests.
 
 
 
