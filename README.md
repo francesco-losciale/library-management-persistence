@@ -11,6 +11,11 @@ Most important flaws:
 1. Excessive use of Java Reflection
 2. Where do you place OrderFieldMetadataEnum which refers to both the persistence field and the domain classes' name? Would you place it in the business component or in the persistence component? It is placed here to keep the dependency inversion principle valid.
 
+### Latest change
+
+Added gradle script which uses [Gradle Docker Plugin](https://bmuschko.github.io/gradle-docker-plugin/) for running the integration tests.
+
+
 
 ### Prerequisites
 
