@@ -1,32 +1,40 @@
 plugins {
     id 'com.bmuschko.docker-remote-api' version '3.2.5'
+    id 'org.unbroken-dome.test-sets' version '1.2.0' // integration tests plugin
 }
-
-apply plugin: 'java'
-apply plugin: 'groovy'
-
 repositories {
     mavenLocal()
     mavenCentral()
     jcenter()
 }
-
 dependencies {
-    implementation 'bookshop-system:bookshop-system-business-layer:1.0-SNAPSHOT', 'org.mongodb:mongodb-driver:3.8.2'
-    testImplementation (
-            ['org.spockframework:spock-core:1.2-groovy-2.5'],
-            ['org.codehaus.groovy:groovy-all:2.5.2'],
-    )
+    compile 'bookshop-system:bookshop-system-business-layer:1.0-SNAPSHOT', 'org.mongodb:mongodb-driver:3.8.2'
+    compile 'org.spockframework:spock-core:1.2-groovy-2.5'
+    compile 'org.codehaus.groovy:groovy-all:2.5.2'
 }
+
+apply plugin: 'java'
+apply plugin: 'groovy'
+apply plugin: 'org.unbroken-dome.test-sets'
+
+
+///// integration test conf for test-sets plugin
+
+testSets {
+    integrationTest {
+        dirName = 'test-integration'
+    }
+}
+
+
+///// docker container conf
 
 docker {
     url = 'tcp://10.0.2.15:2375' // docker machine address
 }
 
-
 import com.bmuschko.gradle.docker.tasks.container.*
 import com.bmuschko.gradle.docker.tasks.image.*
-
 
 task initMongoDbDockerImage(type: DockerPullImage) {
     repository 'mongo'
@@ -44,11 +52,12 @@ task startDockerContainer(type: DockerStartContainer) {
     targetContainerId { initDockerContainer.getContainerId() }
 }
 
-test.dependsOn startDockerContainer
+integrationTest.dependsOn startDockerContainer
+check.dependsOn integrationTest
 
 task stopDockerContainer(type: DockerStopContainer) {
     dependsOn startDockerContainer
     targetContainerId { initDockerContainer.getContainerId() }
 }
 
-test.finalizedBy stopDockerContainer
+integrationTest.finalizedBy stopDockerContainer
